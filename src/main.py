@@ -1,9 +1,7 @@
-import sender.sender
-import middle_man.middle_man
-import receiver.receiver
+from sender import sender
 
 def main() -> None:
-    print("Hello, World!")
+    sender.send_data()
 
 if __name__ == "__main__":
     main()

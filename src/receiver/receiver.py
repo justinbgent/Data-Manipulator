@@ -1,2 +1,11 @@
 # Receive data and send a boolean value if it's been received
-# Store received data in a list and print out each piece of data that was received
+# Print out each piece of data that was received
+
+received = False
+
+def receive_data(deal: str) -> bool:
+    global received
+    received = not received
+    if received:
+        print(deal)
+    return received
