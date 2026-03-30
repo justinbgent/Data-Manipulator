@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "data-manipulator"
+version = "0.1.0"
+description = "Python data passing of deals."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    # Add packages here, e.g.:
+    # "requests>=2.31.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    # Dev tools (tests, linting, etc.), e.g.:
+    # "pytest>=7.0",
+    # "ruff>=0.1.0",
+]
