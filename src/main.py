@@ -1,7 +1,5 @@
-from sender import sender
-
 def main() -> None:
-    sender.send_data()
+    print("Hello, World!")
 
 if __name__ == "__main__":
     main()
