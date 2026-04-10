@@ -11,6 +11,7 @@ requires-python = ">=3.10"
 dependencies = [
     # Add packages here, e.g.:
     # "requests>=2.31.0",
+    "music21>=9.1.0",
 ]
 
 [project.optional-dependencies]
@@ -19,3 +20,6 @@ dev = [
     # "pytest>=7.0",
     # "ruff>=0.1.0",
 ]
+
+# Run this each time I add a new dependency to this file.
+# py -m pip install -e .
