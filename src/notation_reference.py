@@ -4,8 +4,8 @@ Okay, then I'll just have music 21 transform my notes and output to a ly file. T
 file using scheme in a separate repo to move where staff lines are written and staff symbols. Then 
 using lily pond, output the final ly file to pdf.
 
-Runtime pitch pairs live in ``pitch_map`` (kept in sync with the lists below). Open this
-module when you need the staff commentary.
+Runtime pitch pairs live in ``pitch_map`` (one spelling per chromatic height; enharmonics
+match via ``round(Pitch.ps)``). Open this module when you need the staff commentary.
 
 Relative ``-i`` paths are read from ``src\\input\\``. Relative ``-o`` paths are written under
 ``src\\output\\``. Use absolute paths for ``-i`` or ``-o`` to read/write anywhere else.

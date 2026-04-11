@@ -4,11 +4,13 @@ from __future__ import annotations
 
 from music21 import chord, note, pitch, stream
 
-from pitch_map import MIDI_TO_TARGET_NAME
+from pitch_map import PS_TO_TARGET_NAME
 
 
 def _rewrite_pitch(p: pitch.Pitch) -> pitch.Pitch | None:
-    name = MIDI_TO_TARGET_NAME.get(p.midi)
+    if not p.isTwelveTone():
+        return None
+    name = PS_TO_TARGET_NAME.get(int(round(p.ps)))
     if name is None:
         return None
     return pitch.Pitch(name)

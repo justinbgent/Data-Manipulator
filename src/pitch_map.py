@@ -1,7 +1,8 @@
 """Pitch rewrite table from ``notation_reference`` (staff ↔ piano-style spelling).
 
-Each pair is ``(written_source, target_spelling)`` as music21 pitch strings.
-Source MIDI values must not repeat across pairs.
+Each pair is ``(source_pitch_string, target_spelling)`` as music21 pitch strings.
+Sources are one spelling per chromatic height; any enharmonic shares the same
+``round(pitch.ps)`` and therefore matches without listing equivalents.
 """
 
 from __future__ import annotations
@@ -78,17 +79,20 @@ _PITCH_PAIRS: list[tuple[str, str]] = [
 ]
 
 
-def build_midi_to_target_name() -> dict[int, str]:
-    """Map MIDI of each source spelling to the target ``nameWithOctave`` string."""
+def build_ps_to_target_name() -> dict[int, str]:
+    """Map twelve-tone pitch space (``round(Pitch.ps)``) to target ``nameWithOctave``."""
     out: dict[int, str] = {}
     for src, dst in _PITCH_PAIRS:
-        src_midi = pitch.Pitch(src).midi
+        ps_key = int(round(pitch.Pitch(src).ps))
         dst_name = pitch.Pitch(dst).nameWithOctave
-        if src_midi in out and out[src_midi] != dst_name:
-            msg = f"Duplicate source MIDI {src_midi} for {src!r} and existing {out[src_midi]!r} vs {dst_name!r}"
+        if ps_key in out and out[ps_key] != dst_name:
+            msg = (
+                f"Duplicate source ps {ps_key} for {src!r} "
+                f"and existing {out[ps_key]!r} vs {dst_name!r}"
+            )
             raise ValueError(msg)
-        out[src_midi] = dst_name
+        out[ps_key] = dst_name
     return out
 
 
-MIDI_TO_TARGET_NAME: dict[int, str] = build_midi_to_target_name()
+PS_TO_TARGET_NAME: dict[int, str] = build_ps_to_target_name()
