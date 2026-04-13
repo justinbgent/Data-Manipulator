@@ -12,9 +12,11 @@ from paths import BUNDLED_LILYPOND
 from transform import transform_score
 
 try:
-    from music21.lily.translate import LilyTranslateException
+    from music21.lily.translate import LilyTranslateException as _LilyTranslateException
 except ImportError:  # pragma: no cover
-    LilyTranslateException = Exception  # type: ignore[misc, assignment]
+    # Do not fall back to ``Exception`` — that would label every write failure
+    # as a LilyPond install issue. When missing, only the generic branch runs.
+    _LilyTranslateException = None
 
 
 def _configure_lilypond_path() -> None:
@@ -45,16 +47,16 @@ def process_musicxml_to_ly(input_path: Path, output_path: Path) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     try:
         parsed.write("lilypond", fp=str(output_path))
-    except LilyTranslateException as exc:
-        print(
-            f"Error: could not write LilyPond ({output_path}): {exc}\n"
-            "Install LilyPond and/or set the LILYPOND_PATH environment variable to "
-            f"``lilypond`` (checked bundled: {BUNDLED_LILYPOND}).",
-            file=sys.stderr,
-        )
-        raise SystemExit(1) from exc
     except Exception as exc:
-        print(f"Error: could not write {output_path}: {exc}", file=sys.stderr)
+        if _LilyTranslateException is not None and isinstance(exc, _LilyTranslateException):
+            print(
+                f"Error: could not write LilyPond ({output_path}): {exc}\n"
+                "Install LilyPond and/or set the LILYPOND_PATH environment variable to "
+                f"``lilypond`` (checked bundled: {BUNDLED_LILYPOND}).",
+                file=sys.stderr,
+            )
+        else:
+            print(f"Error: could not write {output_path}: {exc}", file=sys.stderr)
         raise SystemExit(1) from exc
 
     print(f"Wrote {output_path}")

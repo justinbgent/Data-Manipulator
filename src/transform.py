@@ -4,16 +4,18 @@ from __future__ import annotations
 
 from music21 import chord, note, pitch, stream
 
-from pitch_map import PS_TO_TARGET_NAME
+from pitch_map import PS_TO_TARGET_PS
 
 
 def _rewrite_pitch(p: pitch.Pitch) -> pitch.Pitch | None:
     if not p.isTwelveTone():
         return None
-    name = PS_TO_TARGET_NAME.get(int(round(p.ps)))
-    if name is None:
+    target_ps = PS_TO_TARGET_PS.get(int(round(p.ps)))
+    if target_ps is None:
         return None
-    return pitch.Pitch(name)
+    out = pitch.Pitch()
+    out.ps = float(target_ps)
+    return out
 
 
 def transform_score(score: stream.Stream) -> None:

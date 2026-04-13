@@ -1,7 +1,7 @@
 """Input/output roots and path resolution for the CLI.
 
 Relative ``-i`` is under ``src/input/``; relative ``-o`` (or default) is under
-``src/output/`` (``<stem>_out.musicxml``). Absolute ``-i``/``-o`` use those paths.
+``src/output/`` (``<stem>_out.ly``). Absolute ``-i``/``-o`` use those paths.
 """
 
 from __future__ import annotations
