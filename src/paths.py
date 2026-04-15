@@ -12,7 +12,7 @@ _SRC_DIR = Path(__file__).resolve().parent
 REPO_ROOT = _SRC_DIR.parent
 INPUT_DIR = _SRC_DIR / "input"
 OUTPUT_DIR = _SRC_DIR / "output"
-BUNDLED_LILYPOND = REPO_ROOT / "lilypond-2.24.4" / "bin" / "lilypond.exe"
+BUNDLED_LILYPOND = REPO_ROOT.parent.parent / "lilypond-2.24.4" / "bin" / "lilypond.exe"
 
 _MUSICXML_SUFFIXES = frozenset({".xml", ".musicxml", ".mxl"})
 
