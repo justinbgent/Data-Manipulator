@@ -1,15 +1,14 @@
 """Personal reference: staff layout, MusicXML pitch, and Lily Pond line positions.
 
-Okay, then I'll just have music 21 transform my notes and output to a ly file. Then I'll edit the ly 
-file using scheme in a separate repo to move where staff lines are written and staff symbols. Then 
-using lily pond, output the final ly file to pdf.
+The CLI uses music21 to transform notes and write MusicXML; you can convert that to LilyPond/PDF
+elsewhere (e.g. ``musicxml2ly``) if needed.
 
 Runtime pitch pairs live in ``pitch_map`` (one spelling per chromatic height; enharmonics
 match via ``round(Pitch.ps)``). Open this module when you need the staff commentary.
 
 Relative ``-i`` paths are read from ``src\\input\\``. Relative ``-o`` paths are written under
 ``src\\output\\``. Use absolute paths for ``-i`` or ``-o`` to read/write anywhere else.
-Default output if ``-o`` omitted: ``src\\output\\<input_stem>_out.ly``.
+Default output if ``-o`` omitted: ``src\\output\\<input_stem>_out.musicxml``.
 Rewrites are defined in ``pitch_map`` / ``transform.transform_score``.
 
 How the program works:
@@ -17,9 +16,9 @@ How the program works:
 1. ``-i``/``--input``: MusicXML file (.xml, .musicxml, or .mxl); relative names use ``src\\input\\``.
 2. music21 ``converter.parse()`` loads the file into a stream (Score, Part, etc.).
 3. ``transform_score()`` rewrites pitches in place using ``pitch_map`` (add more logic there if needed).
-4. The stream is written with ``write("lilypond", fp=...)`` to a ``.ly`` file (requires LilyPond).
+4. The stream is written with ``write("musicxml", fp=...)`` to a ``.musicxml`` (or ``.xml``) file.
 5. ``-o``/``--output`` is optional; relative paths go under ``src\\output\\``; default output name
-   is ``<input_stem>_out.ly`` in ``src\\output\\`` (or a batch output directory).
+   is ``<input_stem>_out.musicxml`` in ``src\\output\\`` (or a batch output directory).
    If the output directory does not exist, it is created. Parse/write errors go to stderr
    and the program exits with status 1.
 

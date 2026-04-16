@@ -1,7 +1,7 @@
 """Input/output roots and path resolution for the CLI.
 
 Relative ``-i`` is under ``src/input/``; relative ``-o`` (or default) is under
-``src/output/`` (``<stem>_out.ly``). Absolute ``-i``/``-o`` use those paths.
+``src/output/`` (``<stem>_out.musicxml``). Absolute ``-i``/``-o`` use those paths.
 """
 
 from __future__ import annotations
@@ -12,7 +12,6 @@ _SRC_DIR = Path(__file__).resolve().parent
 REPO_ROOT = _SRC_DIR.parent
 INPUT_DIR = _SRC_DIR / "input"
 OUTPUT_DIR = _SRC_DIR / "output"
-BUNDLED_LILYPOND = REPO_ROOT.parent.parent / "lilypond-2.24.4" / "bin" / "lilypond.exe"
 
 _MUSICXML_SUFFIXES = frozenset({".xml", ".musicxml", ".mxl"})
 
@@ -26,7 +25,7 @@ def resolve_input_path(path: Path) -> Path:
 
 def resolve_output_path(out_arg: Path | None, input_path: Path) -> Path:
     if out_arg is None:
-        return (OUTPUT_DIR / f"{input_path.stem}_out.ly").resolve()
+        return (OUTPUT_DIR / f"{input_path.stem}_out.musicxml").resolve()
     out_arg = out_arg.expanduser()
     if out_arg.is_absolute():
         return out_arg.resolve()

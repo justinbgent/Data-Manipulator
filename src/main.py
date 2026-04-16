@@ -1,16 +1,15 @@
-"""Read MusicXML, rewrite pitches, write LilyPond ``.ly`` files.
+"""Read MusicXML, rewrite pitches, write MusicXML.
 
 Run from ``src`` (so imports resolve)::
 
     cd src
     python main.py -i .                         --- Converts all files in input directory
-    python main.py -i . -o my_lys               --- Converts all files in input directory to my_lys directory
+    python main.py -i . -o my_outputs           --- Batch output under src/output/my_outputs/
     python main.py -i piece.musicxml            --- Converts single file
-    python main.py -i piece.musicxml -o my_ly   --- Converts single file to my_ly file
+    python main.py -i piece.musicxml -o out.xml --- Single file to chosen path
 
 ``-i`` may be a file or a directory (use ``.`` for ``src/input``). Batch mode writes
-``<stem>_out.ly`` per file. music21 needs a ``lilypond`` executable for export: set
-``LILYPOND_PATH`` or place LilyPond at ``../lilypond-2.24.4/bin/lilypond.exe``.
+``<stem>_out.musicxml`` per file. No LilyPond is required.
 
 See ``paths``, ``cli``, ``pitch_map``, ``transform``; staff commentary in ``notation_reference``.
 """
@@ -26,4 +25,4 @@ if __name__ == "__main__":
 # cd src
 # python main.py -i .
 # python main.py -i piece.musicxml
-# python main.py -i . -o my_batch_lys
+# python main.py -i . -o my_batch_outputs

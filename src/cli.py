@@ -1,4 +1,4 @@
-"""Argument parsing and orchestration for the MusicXML → LilyPond tool."""
+"""Argument parsing and orchestration for the MusicXML transform tool."""
 
 from __future__ import annotations
 
@@ -7,12 +7,14 @@ import sys
 from pathlib import Path
 
 from paths import INPUT_DIR, OUTPUT_DIR, iter_musicxml_files, resolve_input_path, resolve_output_directory, resolve_output_path
-from pipeline import process_musicxml_to_ly
+from pipeline import process_musicxml
+
+_SINGLE_OUTPUT_SUFFIXES = frozenset({".xml", ".musicxml", ".mxl"})
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Load MusicXML, rewrite pitches (see pitch_map), write LilyPond (.ly)."
+        description="Load MusicXML, rewrite pitches (see pitch_map), write MusicXML."
     )
     parser.add_argument(
         "-i",
@@ -26,7 +28,7 @@ def main() -> None:
         "--output",
         type=Path,
         default=None,
-        help="Output .ly path (single file), or output directory for batch; default under src/output/",
+        help="Output .musicxml/.xml path (single file), or output directory for batch; default under src/output/",
     )
     args = parser.parse_args()
     INPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -43,9 +45,9 @@ def main() -> None:
 
         if args.output is not None:
             out_arg = args.output.expanduser()
-            if len(files) > 1 and out_arg.suffix.lower() == ".ly":
+            if len(files) > 1 and out_arg.suffix.lower() in _SINGLE_OUTPUT_SUFFIXES:
                 print(
-                    "Error: with multiple inputs, --output must be a directory, not a .ly file.",
+                    "Error: with multiple inputs, --output must be a directory, not a single MusicXML file.",
                     file=sys.stderr,
                 )
                 raise SystemExit(1)
@@ -54,8 +56,8 @@ def main() -> None:
             out_dir = resolve_output_directory(None)
 
         for f in files:
-            out = out_dir / f"{f.stem}_out.ly"
-            process_musicxml_to_ly(f, out)
+            out = out_dir / f"{f.stem}_out.musicxml"
+            process_musicxml(f, out)
         return
 
     if not inp.is_file():
@@ -69,4 +71,4 @@ def main() -> None:
 
     out = resolve_output_path(args.output, inp)
     out.parent.mkdir(parents=True, exist_ok=True)
-    process_musicxml_to_ly(inp, out)
+    process_musicxml(inp, out)
