@@ -3,9 +3,10 @@
 Run from ``src`` (so imports resolve)::
 
     cd src
-    python main.py -i piece.musicxml
-    python main.py -i .
-    python main.py -i . -o my_lys
+    python main.py -i .                         --- Converts all files in input directory
+    python main.py -i . -o my_lys               --- Converts all files in input directory to my_lys directory
+    python main.py -i piece.musicxml            --- Converts single file
+    python main.py -i piece.musicxml -o my_ly   --- Converts single file to my_ly file
 
 ``-i`` may be a file or a directory (use ``.`` for ``src/input``). Batch mode writes
 ``<stem>_out.ly`` per file. music21 needs a ``lilypond`` executable for export: set
