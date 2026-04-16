@@ -26,3 +26,4 @@ if __name__ == "__main__":
 # python main.py -i .
 # python main.py -i piece.musicxml
 # python main.py -i . -o my_batch_outputs
+# (py .\src\main.py)
